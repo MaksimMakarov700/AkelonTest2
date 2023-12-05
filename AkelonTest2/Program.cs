@@ -39,10 +39,15 @@ namespace AkelonTest2
 
 
             ExcelParser excelParser = new ExcelParser();
-            List<Clients> clientsList = excelParser.ReadTable<Clients>(worksheetClients);
             List<Products> productsList = excelParser.ReadTable<Products>(worksheetProducts);
+            List<Clients> clientsList = excelParser.ReadTable<Clients>(worksheetClients);
             List<Orders> ordersList = excelParser.ReadTable<Orders>(worksheetOrders);
-          
+
+            DBHelper helper = new DBHelper(productsList, clientsList, ordersList);
+            string s = Console.ReadLine();
+            helper.PrintProductInfo(s);
+           
+            /*
 
             foreach (var item in productsList)
             {
@@ -57,7 +62,7 @@ namespace AkelonTest2
             foreach (var item in ordersList)
             {
                 Console.WriteLine($"{item.id}|{item.idProduct}|{item.idClient}|{item.idClient}|");
-            }
+            }*/
 
             Console.WriteLine("Hello, World!");
         }

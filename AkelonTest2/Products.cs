@@ -14,9 +14,9 @@ namespace AkelonTest2
             this.name = String.Empty;
             this.unit = String.Empty;
             this.price = String.Empty;
-        }  
+        }
 
-        public string id { get; set; }        
+        public string id { get; set; }   
         public string name { get; set; }
         public string unit { get; set; }
         public string price { get; set; }
