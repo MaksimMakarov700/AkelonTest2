@@ -9,7 +9,6 @@ namespace AkelonTest2
 {
     internal class Program
     {
-
         static void Main(string[] args)
         {
             Action PressAnyKey = delegate ()
@@ -39,7 +38,7 @@ namespace AkelonTest2
             while (true);
 
             DBHelper helper = new DBHelper(fileName);
-
+            
             ConsoleKeyInfo cki;
             do
             {
@@ -58,6 +57,7 @@ namespace AkelonTest2
                         goto defaultExit;
                     case ConsoleKey.D2:
                         Console.Clear();
+                        helper.EditClientContact();
                         goto defaultExit;
                     case ConsoleKey.D3:
                         Console.Clear();
@@ -70,8 +70,7 @@ namespace AkelonTest2
                 }
             }
             while (cki.Key != ConsoleKey.Escape);
-            //string FileName = @"C:\1\1.xlsx"; // путь к Excel файлу      
-
+            //string FileName = @"C:\1\1.xlsx"; // путь к Excel файлу    
 
         }
     }

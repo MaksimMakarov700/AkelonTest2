@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace AkelonTest2
@@ -15,11 +16,26 @@ namespace AkelonTest2
         private List<Products> productsList { get; set; }
         private List<Clients> clientsList { get; set; }
         private List<Orders> ordersList { get; set; }
-      
+        XLWorkbook? workbook;
+       
 
         public DBHelper(string FileName)
         {            
-            var workbook = new XLWorkbook(FileName);
+            try
+            {
+                workbook = new XLWorkbook(FileName);
+            }
+            catch 
+            {
+                Console.WriteLine("При открытии таблитцы произошла ошибка");
+                Console.ReadKey();
+                return;
+            }
+            Refresh(workbook);
+        }
+
+        private void Refresh(XLWorkbook workbook)
+        {
             var worksheetProducts = workbook.Worksheets.ElementAt(0);
             var worksheetClients = workbook.Worksheets.ElementAt(1);
             var worksheetOrders = workbook.Worksheets.ElementAt(2);
@@ -31,9 +47,16 @@ namespace AkelonTest2
         }
 
         public void PrintGoldClient(string date)
-        {           
-            var max = ordersList.Where(x => x.date.Contains(date)).
-                    GroupBy(g => g.idClient).OrderByDescending(o => o.Count()).Select(k => k.Count()).First();
+        {
+            if (string.IsNullOrEmpty(date)) return;
+            if (!Regex.IsMatch(date, @"\b\d{2}\.\d{4}\b"))
+            {
+                Console.WriteLine("Не верный формат даты.");                
+                return;
+            }
+
+            int max = ordersList.Where(x => x.date.Contains(date)).
+                    GroupBy(g => g.idClient).OrderByDescending(o => o.Count()).Select(k => k.Count()).FirstOrDefault();
             var goldClient = ordersList.Where(x => x.date.Contains(date)).Select(x => x.idClient).
                     GroupBy(g => g).Where(h => h.Count() == max);
             
@@ -46,18 +69,56 @@ namespace AkelonTest2
                 Console.WriteLine($"Золотых клиентов в этом месяце несколько.");
                 foreach (var item in goldClient)
                 {                    
-                    Console.WriteLine($"Золотой клиент: {item.Key}");
+                    Console.WriteLine($"Золотой клиент id: {item.Key}");
                 }                
             }
             else
             {
-                Console.WriteLine($"Золотой клиент: {goldClient.First().Key}");
+                Console.WriteLine($"Золотой клиент id: {goldClient.First().Key}");
             }
                           
         }
 
-        public void PrintProductInfo(string nameProduct)
+        public void EditClientContact()
+        {
+            //TODO переделать на работу с кешем
+            Console.Write("Введите id клиента данные которого нужно изменить:");
+            string id = Console.ReadLine();
+            int index = 0;
+            var worksheetClients = workbook.Worksheets.ElementAt(1);            
+
+            for (int i = 2; i <= worksheetClients.Rows().Count(); i++)
+            {
+                if (worksheetClients.Cell(i, 1).Value.ToString() == id)
+                {
+                    index = i; 
+                    break;
+                }
+            }
+            if (index == 0) 
+            {
+                Console.WriteLine("Пользователь с таким id не найдено");
+                return;
+            }
+
+            Console.Write("Введите название организации:");
+            string org = Console.ReadLine();
+            worksheetClients.Cell(index, 2).Value= org;
+
+            Console.Write("Введите ФИО нового контактного лица:");
+            string name = Console.ReadLine();
+            worksheetClients.Cell(index, 4).Value = name;
+            
+            workbook.Save();
+            Refresh(workbook);
+            Console.WriteLine("Данные успешно записаны");
+
+        }
+
+        public void PrintProductInfo(string nameProduct)        
         {        
+            if (string.IsNullOrWhiteSpace(nameProduct)) return;
+
             var product = productsList.Where(x => x.name == nameProduct).FirstOrDefault();
             if (product == null)
             {
