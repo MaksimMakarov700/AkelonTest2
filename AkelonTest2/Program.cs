@@ -7,21 +7,27 @@ using DocumentFormat.OpenXml.Spreadsheet;
 namespace AkelonTest2
 {
     internal class Program
-    {
+    {       
+
         static void Main(string[] args)
         {
-            Console.Write("Введите путь к файлу: ");
-            string FileName = Console.ReadLine();
+            Action PressEsc = delegate ()
+            {
+                Console.WriteLine("Для выхода из программы нажмите ESC");
+            };
+
+            //Console.Write("Введите путь к файлу: ");
+            string FileName;// = Console.ReadLine();
             FileName =@"C:\1\1.xlsx";
             ConsoleKeyInfo cki;
             do 
             {
-                Console.Clear();
-                Console.WriteLine("1");
-                Console.WriteLine("2");
-                Console.WriteLine("3");
-                Console.WriteLine("4");
-                Console.WriteLine("Для выхода из программы нажмите ESC"); 
+                Console.Clear();                
+                Console.WriteLine("1. Информация о товаре");
+                Console.WriteLine("2. Изменение контактного лица");
+                Console.WriteLine("3. Найти золотого клиента");
+                //Console.WriteLine("Для выхода из программы нажмите ESC"); 
+                PressEsc();
                 cki = Console.ReadKey();
                 if ( cki.Key== ConsoleKey.D1) 
                 {
@@ -44,9 +50,14 @@ namespace AkelonTest2
             List<Orders> ordersList = excelParser.ReadTable<Orders>(worksheetOrders);
 
             DBHelper helper = new DBHelper(productsList, clientsList, ordersList);
+            
+            helper.PrintGoldClient("03.2023");
+
             string s = Console.ReadLine();
             helper.PrintProductInfo(s);
            
+
+
             /*
 
             foreach (var item in productsList)
