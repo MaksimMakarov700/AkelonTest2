@@ -10,17 +10,14 @@ namespace AkelonTest2
     {
         public Clients(string id, string name, string adress, string contact)
         {
-            this.id = id;
-            this.name = name;
-            this.adress = adress;
-            this.contact = contact;
+         
         }
         public Clients() { }
 
-        public string id { get; set; }
-        public string name { get; set; }
-        public string adress { get; set; }
-        public string contact { get; set; }
+        public string id = String.Empty;
+        public string name = String.Empty;
+        public string adress = String.Empty;
+        public string contact = String.Empty;
 
         public void ParseRow(List<string> list)
         {

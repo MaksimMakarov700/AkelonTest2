@@ -1,8 +1,10 @@
-﻿using DocumentFormat.OpenXml.Spreadsheet;
+﻿using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Spreadsheet;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,18 +12,23 @@ namespace AkelonTest2
 {
     class DBHelper
     {
-        List<Products> productsList { get; set; }
-        List<Clients> clientsList { get; set; }
-        List<Orders> ordersList { get; set; }
+        private List<Products> productsList { get; set; }
+        private List<Clients> clientsList { get; set; }
+        private List<Orders> ordersList { get; set; }
+      
 
-        public DBHelper(List<Products> productsList, List<Clients> clientsList, List<Orders> ordersList)
-        {
-            this.productsList = productsList;
-            this.clientsList = clientsList;
-            this.ordersList = ordersList;
+        public DBHelper(string FileName)
+        {            
+            var workbook = new XLWorkbook(FileName);
+            var worksheetProducts = workbook.Worksheets.ElementAt(0);
+            var worksheetClients = workbook.Worksheets.ElementAt(1);
+            var worksheetOrders = workbook.Worksheets.ElementAt(2);
+
+            ExcelParser excelParser = new ExcelParser();
+            productsList = excelParser.ReadTable<Products>(worksheetProducts);
+            clientsList = excelParser.ReadTable<Clients>(worksheetClients);
+            ordersList = excelParser.ReadTable<Orders>(worksheetOrders);
         }
-
-       
 
         public void PrintGoldClient(string date)
         {           
@@ -76,8 +83,7 @@ namespace AkelonTest2
                 {
                     Console.WriteLine("Заказы для такого товара не найдены.");
                 }
-            }
-        }
-
+            }          
+        }        
     }
 }

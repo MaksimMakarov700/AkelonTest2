@@ -10,20 +10,15 @@ namespace AkelonTest2
     {
         public Orders()
         {
-            this.id = String.Empty;
-            this.idProduct = String.Empty;
-            this.idClient = String.Empty;
-            this.number = String.Empty;
-            this.values = String.Empty;
-            this.date = String.Empty;
+        
         }
 
-        public string id { get; set; }
-        public string idProduct { get; set; }
-        public string idClient { get; set; }
-        public string number { get; set; }
-        public string values { get; set; }
-        public string date { get; set; }
+        public string id = String.Empty;
+        public string idProduct = String.Empty;
+        public string idClient = String.Empty;
+        public string number = String.Empty;
+        public string values = String.Empty;
+        public string date = String.Empty;
 
         public void ParseRow(List<string> list)
         {

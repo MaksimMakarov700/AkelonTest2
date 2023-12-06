@@ -10,16 +10,13 @@ namespace AkelonTest2
     {
         public Products()
         {
-            this.id = String.Empty;
-            this.name = String.Empty;
-            this.unit = String.Empty;
-            this.price = String.Empty;
+       
         }
 
-        public string id { get; set; }   
-        public string name { get; set; }
-        public string unit { get; set; }
-        public string price { get; set; }
+        public string id = String.Empty;
+        public string name = String.Empty;
+        public string unit = String.Empty;
+        public string price = String.Empty;
 
         public void ParseRow(List<string> list)
         {
