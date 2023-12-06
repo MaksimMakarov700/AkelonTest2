@@ -82,9 +82,20 @@ namespace AkelonTest2
 
         public void EditClientContact()
         {
+            if (workbook == null) 
+            { 
+                Console.WriteLine("Ошибка при чтении файла");
+                return;
+            }
+
             //TODO переделать на работу с кешем
             Console.Write("Введите id клиента данные которого нужно изменить:");
-            string id = Console.ReadLine();
+            string id = Console.ReadLine() ?? "";
+            if (String.IsNullOrWhiteSpace(id)) 
+            {
+                Console.WriteLine("Id не может быть пустым");
+                return;
+            }
             int index = 0;
             var worksheetClients = workbook.Worksheets.ElementAt(1);            
 
@@ -103,13 +114,13 @@ namespace AkelonTest2
             }
 
             Console.Write("Введите название организации:");
-            string org = Console.ReadLine();
+            string org = Console.ReadLine() ?? "";
             string s = worksheetClients.Cell(index, 2).Value.ToString();
             worksheetClients.Cell(index, 2).Value= org;
             Logger.Info($"У клиента id {id} организация {s} изменено на {org}");
 
             Console.Write("Введите ФИО нового контактного лица:");
-            string name = Console.ReadLine();
+            string name = Console.ReadLine() ?? "";
             s = worksheetClients.Cell(index, 4).Value.ToString();            
             worksheetClients.Cell(index, 4).Value = name;
             Logger.Info($"У клиента id {id} ФИО {s} изменено на {name}");

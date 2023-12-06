@@ -53,7 +53,7 @@ namespace AkelonTest2
                     case ConsoleKey.D1:
                         Console.Clear();
                         Console.Write("Введите название продукта: ");
-                        helper.PrintProductInfo(Console.ReadLine());
+                        helper.PrintProductInfo(Console.ReadLine() ?? "");
                         goto defaultExit;
                     case ConsoleKey.D2:
                         Console.Clear();
@@ -62,7 +62,7 @@ namespace AkelonTest2
                     case ConsoleKey.D3:
                         Console.Clear();
                         Console.Write("Введите месяц и год, в формате мм.гггг: ");
-                        helper.PrintGoldClient(Console.ReadLine());
+                        helper.PrintGoldClient(Console.ReadLine() ?? "");
                         goto defaultExit;
                     defaultExit:
                         PressAnyKey();
