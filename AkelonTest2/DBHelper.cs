@@ -1,5 +1,6 @@
 ﻿using ClosedXML.Excel;
 using DocumentFormat.OpenXml.Spreadsheet;
+using NLog;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,11 +14,11 @@ namespace AkelonTest2
 {
     class DBHelper
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         private List<Products> productsList { get; set; }
         private List<Clients> clientsList { get; set; }
         private List<Orders> ordersList { get; set; }
-        XLWorkbook? workbook;
-       
+        XLWorkbook? workbook;        
 
         public DBHelper(string FileName)
         {            
@@ -103,12 +104,16 @@ namespace AkelonTest2
 
             Console.Write("Введите название организации:");
             string org = Console.ReadLine();
+            string s = worksheetClients.Cell(index, 2).Value.ToString();
             worksheetClients.Cell(index, 2).Value= org;
+            Logger.Info($"У клиента id {id} организация {s} изменено на {org}");
 
             Console.Write("Введите ФИО нового контактного лица:");
             string name = Console.ReadLine();
+            s = worksheetClients.Cell(index, 4).Value.ToString();            
             worksheetClients.Cell(index, 4).Value = name;
-            
+            Logger.Info($"У клиента id {id} ФИО {s} изменено на {name}");
+
             workbook.Save();
             Refresh(workbook);
             Console.WriteLine("Данные успешно записаны");

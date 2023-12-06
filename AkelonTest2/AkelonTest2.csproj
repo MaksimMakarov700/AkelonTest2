@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.102.1" />
+    <PackageReference Include="NLog" Version="5.2.7" />
   </ItemGroup>
 
 </Project>

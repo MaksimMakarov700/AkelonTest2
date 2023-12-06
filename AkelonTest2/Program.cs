@@ -6,9 +6,9 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace AkelonTest2
-{
-    internal class Program
-    {
+{     
+    class Program    {
+        
         static void Main(string[] args)
         {
             Action PressAnyKey = delegate ()
